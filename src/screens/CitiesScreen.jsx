@@ -28,19 +28,13 @@ function CitiesScreen() {
 
     useEffect(() => {
         dispatch(citiesActions.filterCities(input))
-        setLocation({
-            latitude: cities[0].latitude,
-            longitude: cities[0].longitude,
-            latitudeDelta: 15.0922,
-            longitudeDelta: 15.0421,
-        })
         // eslint-disable-next-line
     }, [input])
 
     useEffect(() => {
         setLocation({
-            latitude: cities[0].latitude,
-            longitude: cities[0].longitude,
+            latitude: cities.length > 0 ? cities[0].latitude: -37.9701476,
+            longitude: cities.length > 0 ? cities[0].longitude: 144.4913195,
             latitudeDelta: 15.0922,
             longitudeDelta: 15.0421,
         })
