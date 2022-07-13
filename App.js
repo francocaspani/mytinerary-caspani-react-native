@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -8,17 +8,19 @@ import HomeScreen from './src/screens/HomeScreen';
 import CitiesScreen from './src/screens/CitiesScreen';
 import AccountScreen from './src/screens/AccountScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useColorScheme } from 'react-native';
 
 export const urlBackend = 'https://mytinerary-caspani-back.herokuapp.com/api'
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-
+  const scheme = useColorScheme()
   return (
     <Provider store={store}>
       <ApplicationProvider {...eva} theme={eva.light}>
-        <NavigationContainer>
+        <NavigationContainer 
+        theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
           <Tab.Navigator 
           screenOptions={({route})=>({
             tabBarIcon: ({ focused, color, size }) => {
@@ -51,7 +53,10 @@ export default function App() {
                 }
               }}
             />
-            <Tab.Screen name="Cities" component={CitiesScreen} />
+            <Tab.Screen name="Cities" component={CitiesScreen} 
+            options={{
+              headerTransparent : true
+            }}/>
             <Tab.Screen name="My Account" component={AccountScreen} />
           </Tab.Navigator>
         </NavigationContainer>
