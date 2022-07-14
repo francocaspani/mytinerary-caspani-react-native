@@ -8,19 +8,34 @@ import AccountScreen from '../screens/AccountScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useColorScheme } from 'react-native';
 import DetailScreen from '../screens/DetailScreen';
+import ItineraryScreen from '../screens/ItineraryScreen';
 
 const Stack = createNativeStackNavigator();
 
 function CitiesStackScreen() {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+        screenOptions={{
+            headerBackVisible: true
+        }}>
             <Stack.Screen
             options={{
                 headerTransparent: true,
                 headerShown: false
             }}
             name="Cities" component={CitiesScreen} />
-            <Stack.Screen name="Details" component={DetailScreen} />
+            <Stack.Screen 
+            options={{
+                headerTransparent: true,
+                headerBlurEffect: 'systemUltraThinMaterialDark'
+            }}
+            name="Details" component={DetailScreen} />
+            <Stack.Screen 
+            options={{
+                headerTransparent: true,
+                headerBlurEffect: 'systemUltraThinMaterialDark'
+            }}
+            name="Itinerary" component={ItineraryScreen} />
         </Stack.Navigator>
     );
 }
