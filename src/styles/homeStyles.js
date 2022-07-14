@@ -8,10 +8,13 @@ const homeStyles = StyleSheet.create({
         left: 0,
         bottom: 0,
         right: 0,
+        zIndex: -1
     },
     containerHome: {
         flex: 1,
+        backgroundColor: '#fff',
         alignItems: 'center',
+        justifyContent: 'center',
     },
     hero: {
         textAlign: 'left',
@@ -24,7 +27,7 @@ const homeStyles = StyleSheet.create({
     },
     slide: {
         top: 160,
-        height: 400,
+        height: 350,
         alignItems: 'center',
         width: '100%',
         backgroundColor: 'rgba(0, 0, 0, 0.40)',
@@ -36,26 +39,18 @@ const homeStyles = StyleSheet.create({
     },
     nameCity: {
         position: 'absolute',
-        top: 20,
+        bottom: 1,
         color: 'white',
         fontSize: 20,
         fontWeight: 'bold'
-    },
-    button: {
-        backgroundColor: 'white',
-        top: 130,
-        height: 30,
-        justifyContent: 'center',
-        width: 150,
-        alignItems: 'center',
-        borderRadius: 10
     },
     buttonText: {
         fontWeight: 'bold'
     },
     buttonSearch: {
+        position: 'absolute',
         backgroundColor: 'white',
-        top: 110,
+        top: 70,
         height: 40,
         justifyContent: 'center',
         width: 300,

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Text, View, Pressable, TextInput, Button, Image, ScrollView, TouchableOpacity, Dimensions, Animated } from 'react-native';
+import { Text, View, TextInput, KeyboardAvoidingView, Image, ScrollView, TouchableOpacity, Dimensions, Animated } from 'react-native';
 import MapView, { Callout, Marker } from 'react-native-maps';
 import citiesStyles from '../styles/citiesStyles';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -10,7 +10,7 @@ const { width, heith } = Dimensions.get('window')
 const CARD_WIDTH = width * 0.8
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
-function CitiesScreen() {
+function CitiesScreen({navigation}) {
 
     const [location, setLocation] = useState({
         latitude: -37.9701476,
@@ -148,8 +148,8 @@ function CitiesScreen() {
                             <Text numberOfLines={1} style={citiesStyles.cardTitle}>{city.name}</Text>
                             <Text numberOfLines={1} style={citiesStyles.cardDescription}>{city.country}</Text>
                         </View>
-                        <View style={citiesStyles.knowMoreButton}>
-                            <TouchableOpacity >
+                        <View style={citiesStyles.button}>
+                            <TouchableOpacity style={citiesStyles.knowMoreButton} onPress={()=>navigation.navigate('Details', {id:city._id})}>
                                 <Text style={citiesStyles.textknowMoreButton}>Know more</Text>
                             </TouchableOpacity>
                         </View>

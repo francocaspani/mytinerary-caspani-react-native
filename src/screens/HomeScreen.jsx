@@ -7,7 +7,7 @@ import Carousel from 'react-native-snap-carousel';
 import citiesActions from '../redux/actions/citiesActions'
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-function HomeScreen() {
+function HomeScreen({navigation}) {
     const dispatch = useDispatch()
     const cities = useSelector(store => store.citiesReducer.cities)
     useEffect(() => {
@@ -41,15 +41,11 @@ function HomeScreen() {
                     resizeMode="cover"
                 />
                 <Pressable style={homeStyles.buttonSearch}
-                    onPress={() => console.warn('Explore btn clicked')}>
+                    onPress={() => navigation.navigate('Cities')}>
                     <Ionicons name='search' color={'blue'} size={20} />
                     <Text style={homeStyles.textSearch}>Where are you going?</Text>
                 </Pressable>
                 <Text style={homeStyles.hero}>Find your perfect trip, designed by insiders who know and love their cities! </Text>
-                <Pressable style={homeStyles.button}
-                    onPress={() => console.warn('Explore btn clicked')}>
-                    <Text style={homeStyles.buttonText}>Get me there!</Text>
-                </Pressable>
                 <Carousel
                     layout={'default'}
                     data={cities}

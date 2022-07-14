@@ -14,8 +14,9 @@ const citiesStyles = StyleSheet.create({
         height: Dimensions.get('window').height,
     },
     buttonSearch: {
+        position: 'absolute',
         backgroundColor: 'white',
-        top: 180,
+        top: 70,
         height: 40,
         justifyContent: 'center',
         width: 300,
@@ -37,13 +38,9 @@ const citiesStyles = StyleSheet.create({
     card: {
         elevation: 2,
         backgroundColor: "#FFF",
-        borderTopLeftRadius: 5,
-        borderTopRightRadius: 5,
+        borderRadius: 10,
         marginHorizontal: 10,
         shadowColor: "#000",
-        shadowRadius: 5,
-        shadowOpacity: 0.3,
-        shadowOffset: { x: 2, y: -2 },
         height: 220,
         width: CARD_WIDTH,
         overflow: "hidden",
@@ -55,28 +52,32 @@ const citiesStyles = StyleSheet.create({
         alignSelf: "center",
     },
     textContent: {
-        flex: 2,
-        padding: 10,
+        flex: 1,
+        padding: 5,
+        alignItems: 'center'
     },
-    cardtitle: {
-        fontSize: 12,
-        // marginTop: 5,
+    cardTitle: {
+        fontSize: 16,
         fontWeight: "bold",
+        margin: 5
     },
     cardDescription: {
         fontSize: 12,
         color: "#444",
     },
     button: {
+        flex: 1,
         alignItems: 'center',
-        marginTop: 5
+        marginTop: 5,
+        alignContent: 'center',
+        justifyContent: 'center'
     },
     knowMoreButton: {
-        width: '100%',
+        width: '40%',
         padding: 5,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 3,
+        borderRadius: 5,
         borderColor: '#000',
         borderWidth: 1
     },
