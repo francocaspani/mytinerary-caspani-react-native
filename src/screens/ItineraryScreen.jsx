@@ -5,9 +5,41 @@ import FlipCard from 'react-native-flip-card'
 
 const { width, heith } = Dimensions.get('window')
 const CARD_WIDTH = width * 0.8
-function ItineraryScreen({ route }) {
+function ItineraryScreen({ route, navigation }) {
     const { item } = route.params
     const price = [...Array(item.price).keys()];
+
+    
+    const handleLike = async () =>{
+        if (user){
+          const token = localStorage.getItem('token')
+          const res = await dispatch(itinerariesActions.handleLikes(data._id,token))
+          console.log(res)
+          if(res.data.success){
+            setReload()
+            toast.success(res.data.message, {
+              theme: "dark",
+              position: "bottom-left",
+              autoClose: 4000,
+          })
+          } else {
+            toast.error(res.data.message, {
+              theme: "dark",
+              position: "bottom-left",
+              autoClose: 4000,
+          })
+          }
+        } else {
+          Toast.fire({
+            icon: 'error',
+            title: 'You have to be logged in order to like this'
+        })
+        }
+      }
+
+
+
+
     return (
         <ScrollView style={itineraryStyles.mainContainer}>
             <View style={itineraryStyles.avatarAndName}>
@@ -65,7 +97,7 @@ function ItineraryScreen({ route }) {
                                     />
                                 </View>
                                 <View style={itineraryStyles.activitySlideSide2}>
-                                <Image
+                                    <Image
                                         style={itineraryStyles.activityImg}
                                         resizeMode='cover'
                                         source={{ uri: activity.img }}
@@ -78,7 +110,13 @@ function ItineraryScreen({ route }) {
                 </ScrollView>
             </View>
             <View style={itineraryStyles.commentsButtonContainer} >
-                <TouchableOpacity style={itineraryStyles.commentsButton}><Text style={itineraryStyles.commentsButtonText}>Comments</Text></TouchableOpacity>
+                <TouchableOpacity style={itineraryStyles.commentsButton}
+                    onPress={() => navigation.navigate('Comments')}
+                ><Text style={itineraryStyles.commentsButtonText}>Comments</Text></TouchableOpacity>
+                <TouchableOpacity style={itineraryStyles.likeButton}>         
+                     <Text style={itineraryStyles.textLikes}>{item.likes.length}</Text>
+                    <Ionicons name="heart-outline" color={'black'} size={30} />
+                </TouchableOpacity>
             </View>
         </ScrollView>
     )

@@ -99,22 +99,33 @@ const itineraryStyles = StyleSheet.create({
         width: '100%'
     },
     commentsButton:{
-        width: "80%",
+        width: "60%",
         backgroundColor: '#FFF',
         height: 40,
         borderRadius: 20,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     commentsButtonContainer:{
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 15
+        marginTop: 15,
+        flexDirection:  'row'
     },
     commentsButtonText:{
         fontSize: 20,
         fontWeight: '500'
+    },
+    likeButton:{
+        width: "30%",
+        backgroundColor: '#FFF',
+        height: 40,
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection:  'row',
+        marginLeft: 10
     }
 
 })

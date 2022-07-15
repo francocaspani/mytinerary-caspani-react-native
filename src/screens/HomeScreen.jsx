@@ -6,12 +6,21 @@ import homeStyles from '../styles/homeStyles';
 import Carousel from 'react-native-snap-carousel';
 import citiesActions from '../redux/actions/citiesActions'
 import Ionicons from '@expo/vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function HomeScreen({navigation}) {
+function HomeScreen({ navigation }) {
     const dispatch = useDispatch()
     const cities = useSelector(store => store.citiesReducer.cities)
     useEffect(() => {
         dispatch(citiesActions.getCities())
+        if (AsyncStorage.getItem('token') !== null) {
+            const token = AsyncStorage.getItem('token')
+
+            const verifyToken = async () => {
+                await dispatch(usersActions.verifyToken(token))
+            }
+            verifyToken()
+        }
     }, [])
 
     const renderItem = ({ item, index }) => {
