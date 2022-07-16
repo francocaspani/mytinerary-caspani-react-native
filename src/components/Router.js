@@ -10,6 +10,7 @@ import { useColorScheme } from 'react-native';
 import DetailScreen from '../screens/DetailScreen';
 import ItineraryScreen from '../screens/ItineraryScreen';
 import CommentsScreen from '../screens/CommentsScreen';
+import SignUpScreen from '../screens/SignUpScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,6 +53,7 @@ function AccountStackScreen() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="My Account" component={AccountScreen} />
+            <Stack.Screen name="Sign Up" component={SignUpScreen} />
         </Stack.Navigator>
     );
 }

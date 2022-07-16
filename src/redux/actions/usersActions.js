@@ -21,7 +21,7 @@ const usersActions = {
                 dispatch({ type: 'logInUser', payload: res.data })
                 console.log(res)
                 if (res.data.success) {
-                    AsyncStorage.setItem('token', res.data.response.token)
+                    await AsyncStorage.setItem('@token', res.data.response.token)
                 }
                 return res
             } catch (error) {
@@ -31,7 +31,7 @@ const usersActions = {
     },
     logOutUser: () => {
         return async (dispatch, getState) => {
-            AsyncStorage.removeItem('token')
+            await AsyncStorage.removeItem('@token')
             dispatch({ type: 'logOutUser', payload: null })
         }
     },
@@ -46,12 +46,12 @@ const usersActions = {
                         console.log(user)
                         return user
                     } else {
-                        AsyncStorage.removeItem('token')
+                        AsyncStorage.removeItem('@token')
                     }
                 }).catch(error => {
                     if (error.response.status === 401)
                         dispatch({ type: 'logOutUser', payload: null }) 
-                        AsyncStorage.removeItem('token')
+                        AsyncStorage.removeItem('@token')
                     return {
                         data:{
                             success: false,

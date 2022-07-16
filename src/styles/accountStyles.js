@@ -15,7 +15,20 @@ const accountStyles = StyleSheet.create({
     },
     logo:{
         height:150,
-        width: 100
+        width: 100,
+    },
+    userAvatar:{
+        height:100,
+        width: 100,
+        borderRadius: 100
+    },
+    userContainer:{
+        width: '100%',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        flex: 1,
+        backgroundColor: '#FFF',
+        borderRadius: 20
     },
     title:{
         fontSize: 30,

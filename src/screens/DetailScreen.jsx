@@ -1,27 +1,33 @@
 import { View, Text, Image, ScrollView, FlatList, Pressable, TouchableHighlight, TouchableOpacity } from 'react-native'
 import { useDispatch, useSelector } from "react-redux";
 import itinerariesActions from "../redux/actions/itinerariesActions";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import citiesActions from '../redux/actions/citiesActions';
 import detailStyles from '../styles/detailStyles';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useIsFocused } from '@react-navigation/native';
 
 export default function DetailScreen({ route, navigation }) {
   const { id } = route.params
   const dispatch = useDispatch()
-
+  const isFocused = useIsFocused();
+  const user = useSelector(store => store.usersReducer.userData)
   useEffect(() => {
     dispatch(citiesActions.getOneCity(id))
     dispatch(itinerariesActions.getItinerariesByCity(id))
     // eslint-disable-next-line
-  }, [id])
+  }, [id,isFocused])
+
+
+
+
   const itinerariesByCity = useSelector(store => store.itinerariesReducer.itinerariesByCity)
   const city = useSelector(store => store.citiesReducer.city)
 
   const renderItinerary = ({ item }) => {
     const price = [...Array(item.price).keys()];
     return (
-      <TouchableOpacity style={detailStyles.itinerary} onPress={()=> navigation.navigate('Itinerary', {item : item})}>
+      <TouchableOpacity style={detailStyles.itinerary} onPress={() => navigation.navigate('Itinerary', { id: item._id })}>
         <View style={detailStyles.itineraryInfo}>
           <View style={detailStyles.avatarAndName} >
             <Image style={detailStyles.avatarItinerary}
@@ -31,21 +37,21 @@ export default function DetailScreen({ route, navigation }) {
           </View>
           <View style={detailStyles.itineraryDescription}>
             <Text style={detailStyles.nameItinerary}>{item.nameItinerary}</Text>
-            <Text>Price:  { item.price === 0 ?<Text>For free</Text> : price.map(i=>{
-              return(
-                <Ionicons name='logo-euro' color={'black'} size={15} />
+            <Text>Price:  {item.price === 0 ? <Text>For free</Text> : price.map((i,e )=> {
+              return (
+                <Ionicons key={e} name='logo-euro' color={'black'} size={15} />
               )
             })}</Text>
             <Text>Duration: {item.time}Hs</Text>
-            <View style={detailStyles.hashtags}>{item.hashtags.map(hash=>{
-              return(
-                <Text style={detailStyles.hash}>#{hash}</Text>
+            <View style={detailStyles.hashtags}>{item.hashtags.map((hash, index) => {
+              return (
+                <Text key={index} style={detailStyles.hash}>#{hash}</Text>
               )
             })}</View>
           </View>
           <View style={detailStyles.likes}>
             <Text style={detailStyles.textLikes}>{item.likes.length}</Text>
-            <Ionicons name="heart-outline" color={'black'} size={30} />
+            {item?.likes.includes(user?.id)? <Ionicons name="heart" color={'black'} size={30} />:<Ionicons name="heart-outline" color={'black'} size={30} />}
           </View>
         </View>
 
@@ -53,7 +59,6 @@ export default function DetailScreen({ route, navigation }) {
       </TouchableOpacity>
     )
   }
-
 
 
 

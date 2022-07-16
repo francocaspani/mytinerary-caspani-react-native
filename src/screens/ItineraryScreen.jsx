@@ -1,62 +1,70 @@
-import { View, Text, Image, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Image, ScrollView, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import itineraryStyles from '../styles/itineraryStyles';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FlipCard from 'react-native-flip-card'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector, useDispatch } from 'react-redux';
+import itinerariesActions from '../redux/actions/itinerariesActions';
+import { useEffect, useState } from 'react';
 
 const { width, heith } = Dimensions.get('window')
 const CARD_WIDTH = width * 0.8
 function ItineraryScreen({ route, navigation }) {
-    const { item } = route.params
-    const price = [...Array(item.price).keys()];
+    const { id } = route.params
 
-    
-    const handleLike = async () =>{
-        if (user){
-          const token = localStorage.getItem('token')
-          const res = await dispatch(itinerariesActions.handleLikes(data._id,token))
-          console.log(res)
-          if(res.data.success){
-            setReload()
-            toast.success(res.data.message, {
-              theme: "dark",
-              position: "bottom-left",
-              autoClose: 4000,
-          })
-          } else {
-            toast.error(res.data.message, {
-              theme: "dark",
-              position: "bottom-left",
-              autoClose: 4000,
-          })
-          }
+    const [reload, setReload] = useState(false)
+    const [itinerary, setItinerary] = useState()
+
+
+    const onClickReload = () =>
+        setReload(!reload);
+
+    const user = useSelector(store => store.usersReducer.userData)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(itinerariesActions.getOneItineraries(id))
+            .then(res => setItinerary(res.data.response.itinerary))
+        // eslint-disable-next-line
+    }, [reload])
+
+    const handleLike = async () => {
+        if (user) {
+            const token = await AsyncStorage.getItem('@token')
+            const res = await dispatch(itinerariesActions.handleLikes(itinerary._id, token))
         } else {
-          Toast.fire({
-            icon: 'error',
-            title: 'You have to be logged in order to like this'
-        })
+            Alert.alert(
+                "You have to be logged to save this to favourites",
+                'Please log in',
+                [
+                    { text: "OK", onPress: () => navigation.navigate('Account') }
+                ]
+            );
+
         }
-      }
+        onClickReload()
+    }
 
 
 
-
+    const price = [...Array(itinerary?.price).keys()];
     return (
         <ScrollView style={itineraryStyles.mainContainer}>
             <View style={itineraryStyles.avatarAndName}>
                 <Image style={itineraryStyles.avatarItinerary}
                     resizeMode='cover'
-                    source={{ uri: item.nameUserAndAvatar[1] }} />
-                <Text style={itineraryStyles.nameUser}>Posted by {item.nameUserAndAvatar[0]}</Text>
+                    source={{ uri: itinerary?.nameUserAndAvatar[1] }} />
+                <Text style={itineraryStyles.nameUser}>Posted by {itinerary?.nameUserAndAvatar[0]}</Text>
             </View>
             <View style={itineraryStyles.itineraryDescription}>
-                <Text style={itineraryStyles.itineraryTitle}>{item.nameItinerary}</Text>
+                <Text style={itineraryStyles.itineraryTitle}>{itinerary?.nameItinerary}</Text>
                 <View style={itineraryStyles.priceAndDuration}>
-                    <Text style={itineraryStyles.price}>Price:  {item.price === 0 ? <Text>For free</Text> : price.map(i => {
+                    <Text style={itineraryStyles.price}>Price:  {itinerary?.price === 0 ? <Text>For free</Text> : price.map(i => {
                         return (
-                            <Ionicons name='logo-euro' color={'black'} size={15} />
+                            <Ionicons key={i} name='logo-euro' color={'black'} size={15} />
                         )
                     })}</Text>
-                    <Text style={itineraryStyles.duration}>Duration: {item.time}Hs</Text>
+                    <Text style={itineraryStyles.duration}>Duration: {itinerary?.time}Hs</Text>
                 </View>
                 <ScrollView
                     horizontal
@@ -64,9 +72,9 @@ function ItineraryScreen({ route, navigation }) {
                     scrollEventThrottle={1}
                     pagingEnabled
                 >
-                    {item.hashtags.map(hash => {
+                    {itinerary?.hashtags.map((hash,i) => {
                         return (
-                            <TouchableOpacity style={itineraryStyles.hashtagsSlide}><Text style={itineraryStyles.hash}>#{hash}</Text></TouchableOpacity>
+                            <TouchableOpacity key={i} style={itineraryStyles.hashtagsSlide}><Text style={itineraryStyles.hash}>#{hash}</Text></TouchableOpacity>
                         )
                     })}
                 </ScrollView>
@@ -80,9 +88,10 @@ function ItineraryScreen({ route, navigation }) {
                     pagingEnabled
                     snapToInterval={CARD_WIDTH + 20}
                 >
-                    {item.activities.map(activity => {
+                    {itinerary?.activities.map((activity,i) => {
                         return (
                             <FlipCard
+                            key={i}
                                 friction={12}
                                 flipHorizontal={true}
                                 flipVertical={false}
@@ -111,11 +120,13 @@ function ItineraryScreen({ route, navigation }) {
             </View>
             <View style={itineraryStyles.commentsButtonContainer} >
                 <TouchableOpacity style={itineraryStyles.commentsButton}
-                    onPress={() => navigation.navigate('Comments')}
+                    onPress={() => navigation.navigate('Comments', {id: itinerary._id})}
                 ><Text style={itineraryStyles.commentsButtonText}>Comments</Text></TouchableOpacity>
-                <TouchableOpacity style={itineraryStyles.likeButton}>         
-                     <Text style={itineraryStyles.textLikes}>{item.likes.length}</Text>
-                    <Ionicons name="heart-outline" color={'black'} size={30} />
+                <TouchableOpacity style={itineraryStyles.likeButton}
+                    onPress={handleLike}
+                >
+                    <Text style={itineraryStyles.textLikes}>{itinerary?.likes.length}</Text>
+                    {itinerary?.likes.includes(user?.id)? <Ionicons name="heart" color={'black'} size={30} />:<Ionicons name="heart-outline" color={'black'} size={30} />}
                 </TouchableOpacity>
             </View>
         </ScrollView>

@@ -26,8 +26,8 @@ const homeStyles = StyleSheet.create({
         padding: 15
     },
     slide: {
-        top: 160,
-        height: 350,
+        top: 260,
+        height: 250,
         alignItems: 'center',
         width: '100%',
         backgroundColor: 'rgba(0, 0, 0, 0.40)',
@@ -35,7 +35,7 @@ const homeStyles = StyleSheet.create({
     },
     imgSlide: {
         width: '100%',
-        height: 300,
+        height: 200,
     },
     nameCity: {
         position: 'absolute',

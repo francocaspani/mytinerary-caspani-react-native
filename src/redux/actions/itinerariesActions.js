@@ -34,7 +34,18 @@ const itinerariesActions = {
                 console.log(error)
             }
         }
-    }
+    },
+    getOneItineraries: (id) => {
+        return async (dispatch, getState) => {
+            try {
+                const res = await axios.get(`${urlBackend}/itineraries/${id}`)
+                dispatch({type: 'getOneItineraries', payload: res.data.response.itinerary})
+                return res
+            } catch(error){
+                console.log(error)
+            }
+        }
+    },
 }
 
 export default itinerariesActions

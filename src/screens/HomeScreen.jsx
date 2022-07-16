@@ -13,8 +13,8 @@ function HomeScreen({ navigation }) {
     const cities = useSelector(store => store.citiesReducer.cities)
     useEffect(() => {
         dispatch(citiesActions.getCities())
-        if (AsyncStorage.getItem('token') !== null) {
-            const token = AsyncStorage.getItem('token')
+        if (AsyncStorage.getItem('@token') !== null) {
+            const token = AsyncStorage.getItem('@token')
 
             const verifyToken = async () => {
                 await dispatch(usersActions.verifyToken(token))
@@ -61,7 +61,7 @@ function HomeScreen({ navigation }) {
                     renderItem={renderItem}
                     itemWidth={400}
                     sliderWidth={500}
-                    itemHeight={400}
+                    itemHeight={200}
                     loop={true}
                     autoplay={true}
                     autoplayInterval={5000}

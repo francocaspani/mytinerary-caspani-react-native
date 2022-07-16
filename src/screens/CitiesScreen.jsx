@@ -68,7 +68,7 @@ function CitiesScreen({navigation}) {
                             latitudeDelta: location.latitudeDelta,
                             longitudeDelta: location.longitudeDelta,
                         },
-                        500
+                        800
                     );
                 }
             }, 10);
