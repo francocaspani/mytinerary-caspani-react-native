@@ -90,19 +90,16 @@ export default function Router() {
                     component={HomeScreen}
                     options={{
                         title: 'My Tinerary',
-                        headerTransparent: true,
-                        headerShown: false
+                        headerShown: false,
                     }}
                 />
                 <Tab.Screen name="Explore" component={CitiesStackScreen}
                     options={{
-                        headerTransparent: true,
-                        headerShown: false
+                        headerShown: false,
                     }} />
                 <Tab.Screen name="Account" component={AccountStackScreen}
                  options={{
-                    headerTransparent: true,
-                    headerShown: false
+                    headerShown: false,
                 }}
                 />
             </Tab.Navigator>
